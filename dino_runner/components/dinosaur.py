@@ -18,6 +18,9 @@ class Dinosaur(Sprite):
         self.ducking = False
         self.jumping = False
         self.jump_vel = self.JUMP_VEL
+        self.has_lives = True
+        self.jump_sound = pygame.mixer.Sound("salto.wav")
+        self.duck_sound = pygame.mixer.Sound("agachado.wav")
     def update(self, input_user):
         if self.running:
             self.run()
@@ -25,14 +28,17 @@ class Dinosaur(Sprite):
             self.duck()
         if self.jumping:
             self.jump()
+            #self.jumping_sound()
         if input_user[pygame.K_DOWN] and not self.jumping:
             self.ducking = True
             self.jumping = False
             self.running = False
+            self.duck_sound.play()
         elif input_user[pygame.K_UP] and not self.jumping:
             self.jumping = True
             self.ducking = False
             self.running = False
+            self.jump_sound.play()
         elif not self.jumping:
             self.running = True
             self.jumping = False
@@ -61,5 +67,11 @@ class Dinosaur(Sprite):
             self.dino_rect.y = self.Y_POS
             self.jumping = False
             self.jump_vel = self.JUMP_VEL
+    #def jumping_sound(self):
+        #if self.jumping == True:
+            #self.jump_sound.play()
+        #elif self.jumping == False:
+            #self.jump_sound.stop()
+        
     def draw(self, screen):
         screen.blit(self.image, (self.dino_rect.x, self.dino_rect.y))
