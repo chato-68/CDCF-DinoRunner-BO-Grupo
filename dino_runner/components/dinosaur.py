@@ -1,7 +1,7 @@
 import pygame
 
 from pygame.sprite import Sprite
-from dino_runner.utils.constants import RUNNING, DEFAULT_TYPE, DUCKING, JUMPING, SHIELD_TYPE, DUCKING_SHIELD, RUNNING_SHIELD, JUMPING_SHIELD
+from dino_runner.utils.constants import HEART_TYPE, RUNNING, DEFAULT_TYPE, DUCKING, JUMPING, SHIELD_TYPE, DUCKING_SHIELD, RUNNING_SHIELD, JUMPING_SHIELD
 class Dinosaur(Sprite):
     X_POS = 80
     Y_POS = 300
@@ -30,6 +30,7 @@ class Dinosaur(Sprite):
     def setup_state_booleans(self):
         self.has_powerup = False
         self.shield = False
+        self.plus_heart = False
         self.show_text = False
         self.shield_time_up = 0
 
@@ -101,6 +102,18 @@ class Dinosaur(Sprite):
                 self.shield = False
                 self.update_to_default(SHIELD_TYPE)
 
+        elif self.plus_heart:
+            time_to_show = round((self.shield_time_up - pygame.time.get_ticks()) / 1000,2)
+            if (time_to_show >= 0):
+                fond = pygame.font.Font("freesansbold.ttf", 18)
+                text = fond.render(f"shield enable for {time_to_show}", True, (0, 0, 0))
+                textRect = text.get_rect()
+                textRect.center = (400, 50)
+                screen.blit(text, textRect)
+            else:
+                self.plus_heart = False
+                self.update_to_default(HEART_TYPE)
+                
     def update_to_default(self, current_type):
         if self.type == current_type:
             self.type = DEFAULT_TYPE

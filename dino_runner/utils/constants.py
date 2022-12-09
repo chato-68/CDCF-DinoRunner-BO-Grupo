@@ -75,3 +75,5 @@ HEART_COUNT = 5
 FONT_STYLE = 'freesansbold.ttf'
 BLACK_COLOR = (255, 0, 255)
 WHITE_COLOR = (255, 255, 255)
+HEART_TYPE = "heart"
+CLOUD_TYPE = "cloud"
